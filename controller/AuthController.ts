@@ -7,6 +7,7 @@ import {
   comparePassword,
 } from "../utilities/auth";
 import { validateError } from "../utilities/error";
+import { UserModel } from "../model";
 
 class AuthController {
   constructor() {}
@@ -64,7 +65,7 @@ class AuthController {
         },
       });
     } catch (err: any) {
-      return res.status(500).send({ message: err.message });
+      return res.status(500).send({ success: false, message: err.message });
     }
   }
 
@@ -82,6 +83,7 @@ class AuthController {
         req.body.password,
         req.body.user.password
       );
+
       if (!check) {
         return res.status(400).send({
           success: false,
@@ -89,8 +91,102 @@ class AuthController {
         });
       }
       const token = generateToken();
+      await client.connect();
+      const result = await client
+        .db("test")
+        .collection("user")
+        .updateOne(
+          { _id: req.body.user._id },
+          {
+            $set: {
+              token: token,
+            },
+          }
+        );
+      return res.status(200).send({
+        success: true,
+        data: {
+          _id: req.body.user._id,
+          name: req.body.user.name,
+          email: req.body.user.email,
+          phone: req.body.user.phone,
+          citizenId: req.body.user.citizenId,
+          token: token,
+        },
+      });
     } catch (err: any) {
-      return res.status(500).send({ message: err.message });
+      return res.status(500).send({ success: false, message: err.message });
+    }
+  }
+
+  public async updateUser(req: Request, res: Response) {
+    try {
+      const error = validationResult(req);
+      if (!error.isEmpty()) {
+        return res.status(400).send({
+          success: false,
+          message: validateError(error),
+        });
+      }
+      if (!req.body.isLogin)
+        return res.status(401).send({
+          success: false,
+          message: "Login required",
+        });
+      const user: UserModel = req.body.user;
+      if (user._id != req.params.id)
+        return res.status(400).send({
+          success: false,
+          message: "You can only edit yourself profile.",
+        });
+
+      //can edit name
+      if (req.body.name) {
+        user.name = req.body.name;
+      }
+      //can edit password must have confirm_password
+      if (req.body.password && req.body.confirm_password != req.body.password) {
+        return res.status(400).send({
+          success: false,
+          message: "Password is not matched.",
+        });
+      } else if (req.body.password) {
+        const check = await comparePassword(req.body.password, user.password);
+
+        if (!check) {
+          const hpassword = await hashPassword(req.body.password);
+          user.password = hpassword;
+        }
+      }
+      //can edit phone but is not already in database
+      if (req.body.phone) {
+        user.phone = req.body.phone;
+      }
+      //can edit citizenId but is not already in database
+      if (req.body.citizenId) {
+        user.citizenId = req.body.citizenId;
+      }
+      await client
+        .db("test")
+        .collection("user")
+        .updateOne(
+          { _id: user._id },
+          {
+            $set: {
+              ...user,
+            },
+          }
+        );
+      const result = {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        citizenId: user.citizenId,
+      };
+      res.status(200).send({ success: true, data: result });
+    } catch (err: any) {
+      return res.status(500).send({ success: false, message: err.message });
     }
   }
 

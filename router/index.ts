@@ -73,4 +73,23 @@ router.post(
   authController.login
 );
 
+router.put(
+  "/user/:id",
+  check("phone").custom(async (value, { req }) => {
+    return authController.findUserByValue(value).then((user) => {
+      if (user && req.body.user.phone != value) {
+        return Promise.reject("Phone is already used.");
+      }
+    });
+  }),
+  check("citizenId").custom(async (value, { req }) => {
+    return authController.findUserByValue(value).then((user) => {
+      if (user && req.body.user.citizenId != value) {
+        return Promise.reject("Citizen Id is already used.");
+      }
+    });
+  }),
+  authController.updateUser
+);
+
 export default router;
