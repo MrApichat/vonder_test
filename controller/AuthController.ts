@@ -91,6 +91,7 @@ class AuthController {
         });
       }
       const token = generateToken();
+
       await client.connect();
       const result = await client
         .db("test")
@@ -103,6 +104,8 @@ class AuthController {
             },
           }
         );
+      await client.close();
+
       return res.status(200).send({
         success: true,
         data: {
@@ -166,6 +169,8 @@ class AuthController {
       if (req.body.citizenId) {
         user.citizenId = req.body.citizenId;
       }
+
+      await client.connect();
       await client
         .db("test")
         .collection("user")
@@ -177,6 +182,8 @@ class AuthController {
             },
           }
         );
+      await client.close();
+
       const result = {
         _id: user._id,
         name: user.name,
@@ -204,6 +211,7 @@ class AuthController {
             { token: value },
           ],
         });
+      await client.close();
       return result;
     } catch (err) {
       throw err;

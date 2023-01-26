@@ -1,4 +1,3 @@
-
 interface UserModel {
   _id: object | string;
   name: string;
@@ -9,4 +8,4 @@ interface UserModel {
   password: string;
 }
 
-export {UserModel };
+export { UserModel };
