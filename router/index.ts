@@ -27,13 +27,14 @@ router.post(
   check("password").notEmpty().withMessage("Password is required."),
   check("confirm_password").notEmpty().withMessage("Confirm Password is required."),
   check("phone").notEmpty().withMessage("Phone is required.")
-    .isLength({ min: 10, max: 10 }).withMessage("Please insert Phone correctly.")
+    .isMobilePhone("th-TH").withMessage("Please insert Phone correctly.")
     .custom(async (value) => {
       return userController.findUserByValue(value).then((user) => {
         if (user) return Promise.reject("Phone already in use");
       });
     }),
   check("citizenId").notEmpty().withMessage("Citizen Id is required.")
+    .isNumeric().withMessage("Please insert Citizen Id correctly.")
     .isLength({ min: 13, max: 13 }).withMessage("Please insert Citizen Id correctly.")
     .custom(async (value) => {
       return userController.findUserByValue(value).then((user) => {
