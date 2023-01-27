@@ -36,30 +36,10 @@ async function seeding() {
     isActive: false,
   });
   rooms.push({
-    name: "Double Spring Hotel",
-    location: {
-      latitude: 65.90872,
-      longitude: 99.47036,
-    },
-    price: randomPrice(),
-    left: randomLeft(),
-    isActive: true,
-  });
-  rooms.push({
     name: "Stellar Hotel",
     location: {
       latitude: 65.1368,
       longitude: 158.32879,
-    },
-    price: randomPrice(),
-    left: randomLeft(),
-    isActive: true,
-  });
-  rooms.push({
-    name: "Stellar Hotel",
-    location: {
-      latitude: 37.99425,
-      longitude: 127.17631,
     },
     price: randomPrice(),
     left: randomLeft(),
@@ -80,16 +60,6 @@ async function seeding() {
     location: {
       latitude: -36.81228,
       longitude: -60.4511,
-    },
-    price: randomPrice(),
-    left: randomLeft(),
-    isActive: true,
-  });
-  rooms.push({
-    name: "Mountain Hotel & Spa",
-    location: {
-      latitude: -1.29186,
-      longitude: 119.93245,
     },
     price: randomPrice(),
     left: randomLeft(),
