@@ -19,8 +19,11 @@ class RoomController {
           $options: "i",
         };
       }
-      if (req.query.roomLeft) {
-        filter.left = { $gt: req.query.roomLeft };
+      if (req.query.roomLeft && !isNaN(req.query.roomLeft as any)) {
+        filter.left = { $gte: +req.query.roomLeft };
+      }
+      if (req.query.priceStart && !isNaN(req.query.priceStart as any)){
+        filter.price = { $gte: +req.query.priceStart };
       }
 
       await client.connect();
