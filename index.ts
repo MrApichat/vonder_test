@@ -2,6 +2,7 @@ import express from "express";
 import router from "./router";
 import createError from "http-errors";
 import morgan from "morgan";
+import { Auth } from "./middleware";
 
 const app = express();
 const port = "8000";
@@ -10,6 +11,7 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+router.use(Auth);
 app.use("/", router);
 
 // catch 404 and forward to error handler

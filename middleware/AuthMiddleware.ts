@@ -1,7 +1,7 @@
 import express from "express";
-import { AuthController } from "../controller";
+import { UserController } from "../controller";
 
-const authController = new AuthController();
+const userController = new UserController();
 
 async function Auth(
   req: express.Request,
@@ -10,7 +10,7 @@ async function Auth(
 ) {
   const header = req.headers.authorization?.split(" ")[1];
   if (header) {
-    const user = await authController.findUserByValue(header);
+    const user = await userController.findUserByValue(header);
     if (user) {
       req.body.user = user;
       req.body.isLogin = true;

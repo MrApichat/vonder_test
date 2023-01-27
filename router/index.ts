@@ -3,16 +3,17 @@ import {
   AuthController,
   RoomController,
   BookingController,
+  UserController,
 } from "../controller";
-import { body, check } from "express-validator";
-import { Auth } from "../middleware";
+import { check } from "express-validator";
+import userRouter from "./UserRouter";
 
 const router = express.Router();
 const authController = new AuthController();
 const roomController = new RoomController();
 const bookingController = new BookingController();
+const userController = new UserController();
 
-router.use(Auth);
 router.post(
   "/register",
   check("name").notEmpty().withMessage("Name is required."),
@@ -22,7 +23,7 @@ router.post(
     .isEmail()
     .withMessage("Please insert E-mail correctly.")
     .custom(async (value) => {
-      return authController.findUserByValue(value).then((user) => {
+      return userController.findUserByValue(value).then((user) => {
         if (user) {
           return Promise.reject("E-mail already in use");
         }
@@ -36,9 +37,9 @@ router.post(
     .notEmpty()
     .withMessage("Phone is required.")
     .custom(async (value) => {
-      return authController.findUserByValue(value).then((user) => {
+      return userController.findUserByValue(value).then((user) => {
         if (user) {
-          return Promise.reject("Phone number already in use");
+          return Promise.reject("E-mail already in use");
         }
       });
     }),
@@ -46,9 +47,9 @@ router.post(
     .notEmpty()
     .withMessage("Phone is required.")
     .custom(async (value) => {
-      return authController.findUserByValue(value).then((user) => {
+      return userController.findUserByValue(value).then((user) => {
         if (user) {
-          return Promise.reject("Citizen Id already in use");
+          return Promise.reject("E-mail already in use");
         }
       });
     }),
@@ -62,7 +63,7 @@ router.post(
     .isEmail()
     .withMessage("Please insert E-mail correctly.")
     .custom(async (value, { req }) => {
-      return authController.findUserByValue(value).then((user) => {
+      return userController.findUserByValue(value).then((user) => {
         if (user) {
           req.body.user = user;
         } else {
@@ -73,25 +74,7 @@ router.post(
   check("password").notEmpty().withMessage("Password is required."),
   authController.login
 );
-router.put(
-  "/user/:id",
-  check("phone").custom(async (value, { req }) => {
-    return authController.findUserByValue(value).then((user) => {
-      if (user && req.body.user.phone != value) {
-        return Promise.reject("Phone is already used.");
-      }
-    });
-  }),
-  check("citizenId").custom(async (value, { req }) => {
-    return authController.findUserByValue(value).then((user) => {
-      if (user && req.body.user.citizenId != value) {
-        return Promise.reject("Citizen Id is already used.");
-      }
-    });
-  }),
-  authController.updateUser
-);
-
+router.use("/user", userRouter);
 router.get("/rooms", roomController.getRoom);
 
 router.post(
@@ -99,7 +82,7 @@ router.post(
   check("amount")
     .notEmpty()
     .withMessage("Please insert amount that you want to booking"),
-    bookingController.bookingRoom
+  bookingController.bookingRoom
 );
 
 export default router;

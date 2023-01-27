@@ -1,9 +1,6 @@
 import { client } from "../database";
 import { Request, Response } from "express";
-import { ObjectId } from "mongodb";
-import { IBooking, IRoom } from "../model";
-import { validationResult } from "express-validator";
-import { validateError } from "../utilities/error";
+import { IRoom } from "../model";
 
 class RoomController {
   constructor() {}
@@ -38,7 +35,6 @@ class RoomController {
       return res.status(500).send({ success: false, message: err.message });
     }
   }
-
 }
 
 export default RoomController;
