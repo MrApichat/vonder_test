@@ -1,4 +1,5 @@
-import { UserModel } from "./UserModel";
-import {RoomModel} from './RoomModel';
+import { IUser } from "./UserModel";
+import { IRoom } from "./RoomModel";
+import { IBooking } from "./BookingModel";
 
-export { UserModel, RoomModel };
+export { IUser, IRoom, IBooking };

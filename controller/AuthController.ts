@@ -7,7 +7,7 @@ import {
   comparePassword,
 } from "../utilities/auth";
 import { validateError } from "../utilities/error";
-import { UserModel } from "../model";
+import { IUser } from "../model";
 
 class AuthController {
   constructor() {}
@@ -136,7 +136,7 @@ class AuthController {
           success: false,
           message: "Login required",
         });
-      const user: UserModel = req.body.user;
+      const user: IUser = req.body.user;
       if (user._id != req.params.id)
         return res.status(400).send({
           success: false,

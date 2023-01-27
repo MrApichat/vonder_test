@@ -1,4 +1,4 @@
-interface UserModel {
+interface IUser {
   _id: object | string;
   name: string;
   email: string;
@@ -8,4 +8,4 @@ interface UserModel {
   password: string;
 }
 
-export { UserModel };
+export { IUser };

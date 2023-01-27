@@ -1,4 +1,4 @@
-interface RoomModel {
+interface IRoom {
   _id?: object | string;
   name: string;
   location: ILocation;
@@ -12,4 +12,4 @@ interface ILocation {
   longitude: number;
 }
 
-export { RoomModel };
+export { IRoom };
