@@ -7,7 +7,6 @@ import {
   comparePassword,
 } from "../utilities/auth";
 import { validateError } from "../utilities/error";
-import { IUser } from "../model";
 
 class AuthController {
   constructor() {}
@@ -82,7 +81,7 @@ class AuthController {
       const token = generateToken();
 
       await client.connect();
-      const result = await client
+      await client
         .db("test")
         .collection("user")
         .updateOne(

@@ -4,6 +4,7 @@ import { ObjectId } from "mongodb";
 import { IBooking, IRoom } from "../model";
 import { validationResult } from "express-validator";
 import { validateError } from "../utilities/error";
+import { changeUserModel } from "../utilities/user";
 
 class BookingController {
   constructor() {}
@@ -46,9 +47,15 @@ class BookingController {
           message: "This hotel is full.",
         });
       }
+      if (room.left < req.body.amount) {
+        return res.status(400).send({
+          success: false,
+          message: "This hotel is not room enough to book.",
+        });
+      }
       room.left = room.left - req.body.amount;
       let booking: IBooking = {
-        user: req.body.user,
+        user: changeUserModel(req.body.user),
         room: room,
         amount: req.body.amount,
         totalPrice: req.body.amount * room.price,
@@ -84,7 +91,6 @@ class BookingController {
       return res.status(500).send({ success: false, message: err.message });
     }
   }
-
 }
 
 export default BookingController;

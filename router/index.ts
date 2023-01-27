@@ -39,22 +39,23 @@ router.post(
     .custom(async (value) => {
       return userController.findUserByValue(value).then((user) => {
         if (user) {
-          return Promise.reject("E-mail already in use");
+          return Promise.reject("Phone already in use");
         }
       });
     }),
   check("citizenId")
     .notEmpty()
-    .withMessage("Phone is required.")
+    .withMessage("Citizen Id is required.")
     .custom(async (value) => {
       return userController.findUserByValue(value).then((user) => {
         if (user) {
-          return Promise.reject("E-mail already in use");
+          return Promise.reject("Citizen Id already in use");
         }
       });
     }),
   authController.register
 );
+
 router.post(
   "/login",
   check("email")

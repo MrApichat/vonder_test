@@ -1,5 +1,5 @@
-import { IUser } from "./UserModel";
+import { IUser, IUserDisplay } from "./UserModel";
 import { IRoom } from "./RoomModel";
 import { IBooking } from "./BookingModel";
 
-export { IUser, IRoom, IBooking };
+export { IUser, IRoom, IBooking, IUserDisplay };

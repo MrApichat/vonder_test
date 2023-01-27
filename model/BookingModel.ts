@@ -1,8 +1,8 @@
-import { IRoom, IUser } from "./";
+import { IRoom, IUserDisplay } from "./";
 
 interface IBooking {
   _id?: object | string;
-  user: IUser;
+  user: IUserDisplay;
   room: IRoom;
   amount: number;
   totalPrice: number;

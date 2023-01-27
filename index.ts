@@ -11,7 +11,7 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-router.use(Auth);
+app.use(Auth);
 app.use("/", router);
 
 // catch 404 and forward to error handler
