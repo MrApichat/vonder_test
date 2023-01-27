@@ -1,13 +1,20 @@
 import express from "express";
-import { AuthController } from "../controller";
+import {
+  AuthController,
+  RoomController,
+  BookingController,
+} from "../controller";
 import { body, check } from "express-validator";
 import { Auth } from "../middleware";
 
 const router = express.Router();
 const authController = new AuthController();
+const roomController = new RoomController();
+const bookingController = new BookingController();
 
 router.use(Auth);
 router.get("/handshake", authController.handshake);
+
 router.post(
   "/register",
   check("name").notEmpty().withMessage("Name is required."),
@@ -52,7 +59,6 @@ router.post(
     }),
   authController.register
 );
-
 router.post(
   "/login",
   check("email")
@@ -72,7 +78,6 @@ router.post(
   check("password").notEmpty().withMessage("Password is required."),
   authController.login
 );
-
 router.put(
   "/user/:id",
   check("phone").custom(async (value, { req }) => {
@@ -90,6 +95,16 @@ router.put(
     });
   }),
   authController.updateUser
+);
+
+router.get("/rooms", roomController.getRoom);
+
+router.post(
+  "/booking/:id",
+  check("amount")
+    .notEmpty()
+    .withMessage("Please insert amount that you want to booking"),
+    bookingController.bookingRoom
 );
 
 export default router;
