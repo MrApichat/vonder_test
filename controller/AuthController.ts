@@ -12,17 +12,6 @@ import { IUser } from "../model";
 class AuthController {
   constructor() {}
 
-  public async handshake(req: Request, res: Response) {
-    try {
-      await client.connect();
-      await client.close();
-      res.status(200).send({});
-    } catch (e) {
-      console.log(e);
-      res.status(400).send({});
-    }
-  }
-
   public async register(req: Request, res: Response) {
     try {
       const error = validationResult(req);

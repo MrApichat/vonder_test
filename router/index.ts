@@ -13,8 +13,6 @@ const roomController = new RoomController();
 const bookingController = new BookingController();
 
 router.use(Auth);
-router.get("/handshake", authController.handshake);
-
 router.post(
   "/register",
   check("name").notEmpty().withMessage("Name is required."),
