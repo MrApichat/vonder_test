@@ -26,7 +26,6 @@ router.post(
     .custom(async (value) => {
       return authController.findUserByValue(value).then((user) => {
         if (user) {
-          console.log(user);
           return Promise.reject("E-mail already in use");
         }
       });
@@ -41,7 +40,6 @@ router.post(
     .custom(async (value) => {
       return authController.findUserByValue(value).then((user) => {
         if (user) {
-          console.log(user);
           return Promise.reject("Phone number already in use");
         }
       });
@@ -52,7 +50,6 @@ router.post(
     .custom(async (value) => {
       return authController.findUserByValue(value).then((user) => {
         if (user) {
-          console.log(user);
           return Promise.reject("Citizen Id already in use");
         }
       });

@@ -77,30 +77,6 @@ class BookingController {
           }
         );
 
-      // const result = await client
-      //   .db("test")
-      //   .collection("booking")
-      //   .aggregate([
-      //     {
-      //       $lookup: {
-      //         from: "user",
-      //         localField: "userId",
-      //         foreignField: "_id",
-      //         as: "user",
-      //       },
-      //     },
-      //     {
-      //       $lookup: {
-      //         from: "restRoom",
-      //         localField: "roomId",
-      //         foreignField: "_id",
-      //         as: "room",
-      //       },
-      //     },
-      //     { $match: { _id: insert.insertedId } },
-      //     { $limit: 1 },
-      //   ]).toArray();
-
       await client.close();
 
       return res.status(200).send({ success: true, data: booking });
@@ -108,6 +84,7 @@ class BookingController {
       return res.status(500).send({ success: false, message: err.message });
     }
   }
+
 }
 
 export default BookingController;

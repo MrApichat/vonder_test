@@ -11,8 +11,10 @@ async function Auth(
   const header = req.headers.authorization?.split(" ")[1];
   if (header) {
     const user = await authController.findUserByValue(header);
-    req.body.user = user;
-    req.body.isLogin = true;
+    if (user) {
+      req.body.user = user;
+      req.body.isLogin = true;
+    }
   }
   next();
 }

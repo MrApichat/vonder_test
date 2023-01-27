@@ -5,8 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "test": "nodemon index.ts",
-    "start": "ts-node index.ts",
-    "mock": "ts-node seeding.ts"
+    "start": "ts-node index.ts"
   },
   "keywords": [],
   "author": "",

@@ -1,10 +1,10 @@
 import { client } from "./database";
-import { RoomModel } from "./model";
+import { IRoom } from "./model";
 
 seeding();
 
 async function seeding() {
-  let rooms: RoomModel[] = [];
+  let rooms: IRoom[] = [];
   rooms.push({
     name: "Secret Blossom Resort",
     location: {
@@ -103,6 +103,16 @@ async function seeding() {
     },
     price: randomPrice(),
     left: randomLeft(),
+    isActive: true,
+  });
+  rooms.push({
+    name: "Ruby Shroud Motel",
+    location: {
+      latitude: 0.23033,
+      longitude: 20.23901,
+    },
+    price: randomPrice(),
+    left: 0,
     isActive: true,
   });
   await client.connect();
